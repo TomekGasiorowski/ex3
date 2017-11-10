@@ -29,7 +29,6 @@ public class test1 {
 		AbstractUniqueIndex<SQLInteger> index = new UniqueBPlusTree<SQLInteger>(table,0, 1);
 		AbstractTable tab = index.getTable();
 		
-		
 		System.out.println(tab.getRecordCount());
 		System.out.println(tab.getPrototype());
 		System.out.println(tab.getPrimaryKeys());

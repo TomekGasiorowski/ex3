@@ -25,9 +25,8 @@ public class Node<T extends AbstractSQLValue> extends NodeBase<T>{
 	
 	@Override
 	public AbstractRecord lookup(T key) {
-		//TODO: implement this method
-		
-		return null;
+		int sep = this.binarySearch(key);
+		return this.getUniqueBPlusTree().getIndexElement(sep).lookup(key);
 	}
 	
 	@Override

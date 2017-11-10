@@ -1,5 +1,8 @@
 package de.tuda.sdm.dmdb.access.exercise;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 import de.tuda.sdm.dmdb.access.AbstractIndexElement;
 import de.tuda.sdm.dmdb.access.LeafBase;
 import de.tuda.sdm.dmdb.access.RowIdentifier;
@@ -41,9 +44,20 @@ public class Leaf<T extends AbstractSQLValue> extends LeafBase<T> {
 			return false;
 		}
 		else if(this.isFull()){
+			int found = binarySearch(key);
+			
 			Leaf<T> leaf1 = (Leaf<T>) this.createInstance();
 			Leaf<T> leaf2 = (Leaf<T>) this.createInstance();
 			this.split(leaf1, leaf2);
+			AbstractIndexElement<T> toParentNode = leaf2.getUniqueBPlusTree().getIndexElements().get(found);
+			// pull up to the parent node
+			
+			
+			leaf2.getUniqueBPlusTree().getIndexElements().remove(found);
+			leaf2.indexPage.insert(record);
+		}
+		else {
+			
 		}
 		return true;
 	}

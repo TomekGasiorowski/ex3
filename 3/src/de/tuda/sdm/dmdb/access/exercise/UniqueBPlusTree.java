@@ -48,9 +48,12 @@ public class UniqueBPlusTree<T extends AbstractSQLValue> extends UniqueBPlusTree
 	
 	@Override
 	public AbstractRecord lookup(T key) {
-		//TODO: implement this method
-		
-		return null;
+		if (this.getRoot() instanceof Leaf){
+			return this.getRoot().lookup(key);
+		}
+		else {
+			int sep = this.getRoot().binarySearch(key);
+			return this.indexElements.get(sep).lookup(key);
+		}
 	}
-
 }
