@@ -36,24 +36,30 @@ public class Leaf<T extends AbstractSQLValue> extends LeafBase<T> {
 
 	@Override
 	public boolean insert(T key, AbstractRecord record) {
-		int keynr = this.getUniqueBPlusTree().getKeyColumnNumber();
-		Leaf<T> leaf1 = null;
-		Leaf<T> leaf2 = null;
-		AbstractSQLValue val = record.getValue(keynr);
-		if (val instanceof SQLInteger) {
-			leaf1 = new Leaf(new UniqueBPlusTree<SQLInteger>(this.getUniqueBPlusTree().getTable(),
-					this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
-			leaf2 = new Leaf(new UniqueBPlusTree<SQLInteger>(this.getUniqueBPlusTree().getTable(),
-					this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
+		AbstractRecord rec = lookup(key);
+		if (rec.getValue(UniqueBPlusTreeBase.KEY_POS).compareTo(key) == 0) {
+			return false;
 		}
-		else {
-			leaf1 = new Leaf(new UniqueBPlusTree<SQLVarchar>(this.getUniqueBPlusTree().getTable(),
-					this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
-			leaf2 = new Leaf(new UniqueBPlusTree<SQLVarchar>(this.getUniqueBPlusTree().getTable(),
-					this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
+		else if(this.isFull()){
+			int keynr = this.getUniqueBPlusTree().getKeyColumnNumber();
+			Leaf<T> leaf1 = null;
+			Leaf<T> leaf2 = null;
+			AbstractSQLValue val = record.getValue(keynr);
+
+			if (val instanceof SQLInteger) {
+				leaf1 = new Leaf(new UniqueBPlusTree<SQLInteger>(this.getUniqueBPlusTree().getTable(),
+						this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
+				leaf2 = new Leaf(new UniqueBPlusTree<SQLInteger>(this.getUniqueBPlusTree().getTable(),
+						this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
+			}
+			else {
+				leaf1 = new Leaf(new UniqueBPlusTree<SQLVarchar>(this.getUniqueBPlusTree().getTable(),
+						this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
+				leaf2 = new Leaf(new UniqueBPlusTree<SQLVarchar>(this.getUniqueBPlusTree().getTable(),
+						this.getUniqueBPlusTree().getKeyColumnNumber(), this.getUniqueBPlusTree().getMaxFillGrade()));
+			}
+			this.split(leaf1, leaf2);
 		}
-		this.split(leaf1, leaf2);
-		
 		return true;
 	}
 
