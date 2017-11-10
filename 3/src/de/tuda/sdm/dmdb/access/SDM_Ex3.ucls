@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="de.tuda.sdm.dmdb.access.exercise.Node" project="3" 
     file="/3/src/de/tuda/sdm/dmdb/access/exercise/Node.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="368" y="455"/>    
+    <position height="-1" width="-1" x="373" y="504"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,20 +39,20 @@
   </class>  
   <class id="5" language="java" name="de.tuda.sdm.dmdb.access.LeafBase" project="3" 
     file="/3/src/de/tuda/sdm/dmdb/access/LeafBase.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="47" width="102" x="61" y="131"/>    
+    <position height="-1" width="-1" x="129" y="264"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <class id="6" language="java" name="de.tuda.sdm.dmdb.access.NodeBase" project="3" 
     file="/3/src/de/tuda/sdm/dmdb/access/NodeBase.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="506" y="241"/>    
+    <position height="-1" width="-1" x="509" y="289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <class id="7" language="java" name="de.tuda.sdm.dmdb.access.UniqueBPlusTreeBase" project="3" 
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="de.tuda.sdm.dmdb.storage.AbstractPage" project="3" 
     file="/3/src/de/tuda/sdm/dmdb/storage/AbstractPage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="85" y="-19"/>    
+    <position height="-1" width="-1" x="40" y="-66"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -75,11 +75,11 @@
   </class>  
   <class id="9" language="java" name="de.tuda.sdm.dmdb.storage.AbstractRecord" project="3" 
     file="/3/src/de/tuda/sdm/dmdb/storage/AbstractRecord.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="711" y="-100"/>    
+    <position height="-1" width="-1" x="704" y="-111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <association id="10">    
@@ -96,7 +96,7 @@
     <end type="TARGET" refId="5"/>  
   </generalization>  
   <association id="14">    
-    <bendpoint x="667" y="248"/>    
+    <bendpoint x="731" y="189"/>    
     <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="15" name="uniqueBPlusTree"/>      
       <multiplicity id="16" minimum="0" maximum="1"/>    
