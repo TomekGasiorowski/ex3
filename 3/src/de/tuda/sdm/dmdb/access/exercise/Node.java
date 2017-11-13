@@ -32,7 +32,7 @@ public class Node<T extends AbstractSQLValue> extends NodeBase<T>{
 	@Override
 	public boolean insert(T key, AbstractRecord record){
 		//TODO: implement this method
-		
+		System.out.println("cc");
 		return true;
 	}
 	

@@ -34,30 +34,31 @@ public class Leaf<T extends AbstractSQLValue> extends LeafBase<T> {
 		AbstractRecord rec = this.getUniqueBPlusTree().getLeafRecPrototype().clone();
 		this.binarySearch(key, rec);
 		return rec;
-		// test commit
 	}
 
 	@Override
 	public boolean insert(T key, AbstractRecord record) {
-		AbstractRecord rec = lookup(key);
-		if (rec.getValue(UniqueBPlusTreeBase.KEY_POS).compareTo(key) == 0) {
-			return false;
-		}
-		else if(this.isFull()){
-			int found = binarySearch(key);
-			
-			Leaf<T> leaf1 = (Leaf<T>) this.createInstance();
-			Leaf<T> leaf2 = (Leaf<T>) this.createInstance();
-			this.split(leaf1, leaf2);
-			AbstractIndexElement<T> toParentNode = leaf2.getUniqueBPlusTree().getIndexElements().get(found);
-			// pull up to the parent node
-			
-			
-			leaf2.getUniqueBPlusTree().getIndexElements().remove(found);
-			leaf2.indexPage.insert(record);
-		}
-		else {
-			
+		if (this.getIndexPage().getNumRecords() == 0) {
+			this.getIndexPage().insert(record);
+		} else {
+			AbstractRecord rec = lookup(key);
+			if (rec.getValue(UniqueBPlusTreeBase.KEY_POS).compareTo(key) == 0) {
+				return false;
+			} else if (this.isFull()) {
+				
+				int found = binarySearch(key);
+
+				Leaf<T> leaf1 = (Leaf<T>) this.createInstance();
+				Leaf<T> leaf2 = (Leaf<T>) this.createInstance();
+				this.split(leaf1, leaf2);
+				AbstractIndexElement<T> toParentNode = leaf2.getUniqueBPlusTree().getIndexElements().get(found);
+				// pull up to the parent node
+
+				leaf2.getUniqueBPlusTree().getIndexElements().remove(found);
+				leaf2.indexPage.insert(record);
+			} else {
+				this.getIndexPage().insert(record);
+			}
 		}
 		return true;
 	}
