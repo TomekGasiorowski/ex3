@@ -40,20 +40,17 @@ public class UniqueBPlusTree<T extends AbstractSQLValue> extends UniqueBPlusTree
 	public boolean insert(AbstractRecord record) {
 		//insert record
 		T key = (T) record.getValue(this.keyColumnNumber);
-		if (this.getRoot() instanceof Leaf){
-			return this.getRoot().insert(key, record);
-		}
-		else {
-			return this.getRoot().insert(key, record);
-		}
+		return this.getRoot().insert(key, record);
 	}
 	
 	@Override
 	public AbstractRecord lookup(T key) {
 		if (this.getRoot() instanceof Leaf){
+			System.out.println("aa");
 			return this.getRoot().lookup(key);
 		}
 		else {
+			System.out.println("bb");
 			int sep = this.getRoot().binarySearch(key);
 			return this.indexElements.get(sep).lookup(key);
 		}
