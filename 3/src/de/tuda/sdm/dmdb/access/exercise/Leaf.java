@@ -35,30 +35,32 @@ public class Leaf<T extends AbstractSQLValue> extends LeafBase<T> {
 	public AbstractRecord lookup(T key) {
 		AbstractRecord rec = this.getUniqueBPlusTree().getLeafRecPrototype().clone();
 		this.binarySearch(key, rec);
-		AbstractRecord readRec = this.getUniqueBPlusTree().getTable().getPrototype().clone();
-		System.out.println(rec.getValue(0));
-		System.out.println(rec.getValue(1));
-		System.out.println(rec.getValue(2));
-		this.indexPage.read(Integer.parseInt(rec.getValue(this.getUniqueBPlusTree().SLOT_POS).toString()), readRec);
+		AbstractRecord readRec = this.getUniqueBPlusTree().getTable()
+				.lookup(Integer.parseInt(rec.getValue(1).toString()), Integer.parseInt(rec.getValue(2).toString()));
 		return readRec;
 	}
 
 	@Override
 	public boolean insert(T key, AbstractRecord record) {
-		if (this.getIndexPage().getNumRecords() == 0) {
-			this.getIndexPage().insert(record);
+		AbstractRecord rec = this.getUniqueBPlusTree().getLeafRecPrototype().clone();
+		this.binarySearch(key, rec);
+		if (rec.getValue(UniqueBPlusTreeBase.KEY_POS).compareTo(key) == 0) {
+			// replace old value
 		} else {
-			AbstractRecord rec = lookup(key);
-			if (rec.getValue(UniqueBPlusTreeBase.KEY_POS).compareTo(key) == 0) {
-				return false;
-			} else {
-				this.getIndexPage().insert(record);
-				if (this.isFull()) {
-					AbstractIndexElement<T> leaf1 = this.createInstance();
-					AbstractIndexElement<T> leaf2 = this.createInstance();
-					this.split(leaf1, leaf2);
-					
-				}
+
+			RowIdentifier rowID = this.getUniqueBPlusTree().getTable().insert(record);
+			AbstractRecord localRec = this.getUniqueBPlusTree().getLeafRecPrototype().clone();
+
+			localRec.setValue(this.getUniqueBPlusTree().KEY_POS, key);
+			localRec.setValue(this.getUniqueBPlusTree().PAGE_POS, new SQLInteger(rowID.getPageNumber()));
+			localRec.setValue(this.getUniqueBPlusTree().SLOT_POS, new SQLInteger(rowID.getSlotNumber()));
+
+			this.getIndexPage().insert(localRec);
+
+			if (this.isFull()) {
+				AbstractIndexElement<T> leaf1 = this.createInstance();
+				AbstractIndexElement<T> leaf2 = this.createInstance();
+				this.split(leaf1, leaf2);
 			}
 		}
 		return true;
