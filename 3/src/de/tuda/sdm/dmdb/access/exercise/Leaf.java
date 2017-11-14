@@ -7,7 +7,9 @@ import de.tuda.sdm.dmdb.access.AbstractIndexElement;
 import de.tuda.sdm.dmdb.access.LeafBase;
 import de.tuda.sdm.dmdb.access.RowIdentifier;
 import de.tuda.sdm.dmdb.access.UniqueBPlusTreeBase;
+import de.tuda.sdm.dmdb.storage.AbstractPage;
 import de.tuda.sdm.dmdb.storage.AbstractRecord;
+import de.tuda.sdm.dmdb.storage.Record;
 import de.tuda.sdm.dmdb.storage.types.AbstractSQLValue;
 import de.tuda.sdm.dmdb.storage.types.SQLInteger;
 import de.tuda.sdm.dmdb.storage.types.SQLVarchar;
@@ -33,7 +35,9 @@ public class Leaf<T extends AbstractSQLValue> extends LeafBase<T> {
 	public AbstractRecord lookup(T key) {
 		AbstractRecord rec = this.getUniqueBPlusTree().getLeafRecPrototype().clone();
 		this.binarySearch(key, rec);
-		return rec;
+		AbstractRecord readRec = this.getUniqueBPlusTree().getTable().getPrototype().clone();
+		this.indexPage.read(Integer.parseInt(rec.getValue(2).toString()), readRec);
+		return readRec;
 	}
 
 	@Override
